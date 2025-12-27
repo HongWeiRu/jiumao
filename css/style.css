@@ -1,0 +1,1230 @@
+/* 九茂電梯官方網站 - 名片風格設計系統 */
+
+/* ===== 基礎設定 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 三個色調配色方案 - 參考名片設計 */
+    --color-white: #ffffff; /* 白色 */
+    --color-dark-purple: #2d1b4e; /* 深紫色 - 第一個三角形 */
+    --color-slate-blue: #5a6c7d; /* 淺藍灰色 - 第二個三角形 */
+    --primary-dark: #1a2332; /* 深藍紫色 - 備用深色 */
+    --primary-dark-alt: #2d3a4f; /* 深藍紫色變體 */
+    --primary-accent: #3d4f6b; /* 深藍紫色強調色 */
+    --text-dark: #1a1a1a; /* 深色文字 */
+    --text-light: #ffffff; /* 淺色文字 */
+    --bg-white: #ffffff; /* 白色背景 */
+    --bg-light: #f8f9fa; /* 淺灰背景 */
+    --border-color: #e0e0e0; /* 邊框顏色 */
+    --accent-color: #4a6fa5; /* 強調色（用於連結等） */
+    --shadow-light: rgba(0, 0, 0, 0.08); /* 淺陰影 */
+    --shadow-medium: rgba(0, 0, 0, 0.12); /* 中等陰影 */
+}
+
+body {
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+    color: var(--text-dark);
+    background-color: #f5f5f5;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ===== 三個三角形對角線切割效果 ===== */
+.diagonal-section {
+    position: relative;
+    background: var(--color-white);
+    color: var(--text-dark);
+    padding: 80px 20px;
+    overflow: hidden;
+}
+
+/* 第一個三角形 - 深紫色（從右上角延伸，類似名片） */
+.diagonal-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-dark-purple);
+    /* 從右上角向左下延伸的三角形，形成對角線切割 */
+    clip-path: polygon(45% 0, 100% 0, 100% 55%, 35% 100%, 0 100%, 0 35%);
+    z-index: 1;
+}
+
+/* 第二個三角形 - 淺藍灰色（在第一個下方，平行延伸） */
+.diagonal-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-slate-blue);
+    /* 從右側延伸，在深紫色下方，形成第二層三角形 */
+    clip-path: polygon(55% 0, 100% 0, 100% 65%, 45% 100%, 0 100%, 0 45%);
+    z-index: 2;
+}
+
+.diagonal-section .content {
+    position: relative;
+    z-index: 3;
+}
+
+/* 確保內容在正確的 z-index 層級 */
+.diagonal-section .content > * {
+    position: relative;
+    z-index: 4;
+}
+
+/* 深色區域內的文字使用白色 */
+.diagonal-section .content h1,
+.diagonal-section .content h2,
+.diagonal-section .content h3,
+.diagonal-section .content p {
+    color: var(--text-dark);
+}
+
+/* 當文字在深色區域時，使用白色 */
+.diagonal-section .content h1.dark-bg-text,
+.diagonal-section .content h2.dark-bg-text,
+.diagonal-section .content p.dark-bg-text {
+    color: var(--text-light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.diagonal-section-white {
+    background: var(--bg-white);
+    color: var(--text-dark);
+    position: relative;
+}
+
+.diagonal-section-white::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-white);
+    clip-path: polygon(70% 0, 100% 0, 100% 100%, 0 100%);
+    z-index: 1;
+}
+
+/* ===== 導航列 ===== */
+.navbar {
+    background: var(--bg-white);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0;
+    transition: box-shadow 0.3s;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo span {
+    color: var(--primary-dark-alt);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-menu li a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.nav-menu li a:hover {
+    color: var(--primary-dark);
+}
+
+.nav-menu li a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-dark);
+    transition: width 0.3s;
+}
+
+.nav-menu li a:hover::after {
+    width: 100%;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--primary-dark);
+}
+
+/* ===== Hero 區塊 ===== */
+.hero {
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    background: var(--primary-dark);
+    overflow: hidden;
+}
+
+.hero-dark {
+    background: var(--primary-dark);
+    color: var(--text-light);
+}
+
+.hero-dark .hero-text h1,
+.hero-dark .hero-text .company-name,
+.hero-dark .hero-text p {
+    color: var(--text-light);
+}
+
+/* ===== 名片風格 Hero 設計 - 完全拼接版 ===== */
+.hero-card-style {
+    background: var(--bg-white);
+    position: relative;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.hero-card-style .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+    display: flex;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-left {
+    flex: 1;
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 45%; /* 確保文字不進入三角形區域 */
+    background: transparent;
+}
+
+.hero-left h1 {
+    font-size: 52px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.hero-left .company-name {
+    color: var(--primary-dark);
+    font-size: 64px;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.hero-left .hero-subtitle {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+.hero-action-area {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* 認證標章容器 */
+.cert-badges-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.cert-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.cert-badge-item:hover {
+    transform: translateX(5px);
+    border-color: var(--primary-dark);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cert-badge-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.cert-badge-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    letter-spacing: 0.5px;
+}
+
+/* 右側拼接形狀容器 */
+.hero-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%; /* 使用全寬畫布進行精確座標定位 */
+    height: 100%;
+    z-index: 1;
+}
+
+/* 所有的形狀層都撐滿，依靠 clip-path 劃分領地 */
+.card-triangle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 第一層 - 深紫色 (頂部) */
+.card-triangle-1 {
+    background: var(--color-dark-purple);
+    /* 頂部從 70% 到 100%，底部收縮到 60% */
+    clip-path: polygon(70% 0, 100% 0, 100% 40%, 60% 40%);
+}
+
+/* 第二層 - 淺藍灰色 (中間) */
+.card-triangle-2 {
+    background: var(--color-slate-blue);
+    /* 接續上方的 60% 寬度，向下轉折到 80% 寬度 */
+    clip-path: polygon(60% 40%, 100% 40%, 100% 75%, 80% 75%);
+}
+
+/* 第三層 - 深灰色 (底部) */
+.card-triangle-3 {
+    background: #6b7c8d;
+    /* 接續上方的 80% 寬度，向下收回到 70% 寬度 */
+    clip-path: polygon(80% 75%, 100% 75%, 100% 100%, 70% 100%);
+}
+
+/* 垂直文字定位 */
+.vertical-text {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-size: 52px;
+    font-weight: bold;
+    color: var(--text-light);
+    letter-spacing: 12px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+/* 手機版響應式調整 */
+@media (max-width: 768px) {
+    .hero-card-style {
+        min-height: auto;
+    }
+    .hero-card-style .hero-content {
+        flex-direction: column;
+        padding-right: 20px;
+    }
+    .hero-left {
+        padding-right: 0;
+        text-align: center;
+        padding-top: 60px;
+        padding-bottom: 40px;
+    }
+    .hero-right {
+        position: relative;
+        height: 450px;
+        width: 100%;
+    }
+    .card-triangle-1 { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%); }
+    .card-triangle-2 { clip-path: polygon(0 70%, 100% 100%, 100% 100%, 0 100%); }
+    .card-triangle-3 { display: none; } /* 手機版簡化設計 */
+    
+    .vertical-text {
+        top: 40px;
+        right: 30px;
+        font-size: 36px;
+        transform: none;
+    }
+
+    .hero-action-area {
+        align-items: center;
+    }
+
+    .cert-badges-container {
+        justify-content: center;
+    }
+
+    .cert-badge-item {
+        padding: 6px 12px;
+    }
+
+    .cert-badge-text {
+        font-size: 13px;
+    }
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-text {
+    z-index: 11;
+    position: relative;
+}
+
+.hero-text h1 {
+    font-size: 52px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: var(--text-light);
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-text .company-name {
+    color: var(--text-light);
+    font-size: 64px;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 35px;
+    line-height: 1.8;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-accent {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    color: var(--text-light);
+    padding: 40px 30px;
+    position: relative;
+    z-index: 11;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-accent .certifications {
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.cert-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.cert-badge:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cert-icon {
+    font-size: 24px;
+    color: #4ade80;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.hero-accent .cert-title {
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--text-light);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+    margin: 0;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+/* ===== 按鈕 ===== */
+.btn {
+    display: inline-block;
+    padding: 16px 40px;
+    background: var(--text-light);
+    color: var(--primary-dark);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 12;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary-dark);
+    color: var(--primary-dark);
+}
+
+.btn-outline:hover {
+    background: var(--primary-dark);
+    color: var(--text-light);
+}
+
+/* ===== 區塊樣式 ===== */
+.section {
+    padding: 100px 20px;
+    background: var(--bg-white);
+    transition: background 0.3s;
+}
+
+/* 過渡區塊 - 淺色背景 */
+.section-transition {
+    background: var(--bg-light);
+}
+
+/* 深色區塊樣式 */
+.section-dark {
+    background: var(--primary-dark);
+    color: var(--text-light);
+    padding: 100px 20px;
+}
+
+.section-dark-alt {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-dark-alt) 100%);
+    color: var(--text-light);
+    padding: 100px 20px;
+}
+
+.section-dark .section-title,
+.section-dark-alt .section-title {
+    color: var(--text-light);
+}
+
+.section-dark .section-title::after,
+.section-dark-alt .section-title::after {
+    background: var(--text-light);
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 50px;
+    font-weight: 300;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 60px;
+    color: var(--primary-dark);
+    position: relative;
+    padding-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary-dark), transparent);
+    border-radius: 2px;
+}
+
+/* ===== 卡片樣式 ===== */
+.card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 35px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    box-shadow: 0 2px 12px var(--shadow-light);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px var(--shadow-medium);
+    border-color: var(--primary-dark);
+}
+
+/* 提升卡片樣式 */
+.card-elevated {
+    box-shadow: 0 4px 20px var(--shadow-light);
+}
+
+.card-elevated:hover {
+    box-shadow: 0 8px 30px var(--shadow-medium);
+    transform: translateY(-8px);
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.card-content {
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+/* ===== 網格布局 ===== */
+.grid {
+    display: grid;
+    gap: 30px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* ===== 服務項目 ===== */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.service-item {
+    text-align: center;
+    padding: 35px 25px;
+    background: var(--bg-white);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+.service-item:hover {
+    border-color: var(--primary-dark);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px var(--shadow-medium);
+    background: var(--bg-white);
+}
+
+.service-item-dark {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.service-item h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.service-item.service-item-dark h3 {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 32px;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+    margin-bottom: 15px;
+    letter-spacing: 3px;
+}
+
+.service-item-dark p {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.service-item-dark:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.service-item ul {
+    list-style: none;
+    text-align: left;
+    margin-top: 15px;
+}
+
+.service-item ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.service-item ul li:last-child {
+    border-bottom: none;
+}
+
+/* ===== 聯絡資訊 ===== */
+.contact-info {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px var(--shadow-light);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.contact-info-light {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+}
+
+.contact-info-light h3 {
+    color: var(--primary-dark);
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+.location-item {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.location-item:last-child {
+    border-bottom: none;
+}
+
+.location-item p {
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin: 0;
+}
+
+.location-item strong {
+    color: var(--primary-dark);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.contact-item strong {
+    min-width: 80px;
+    color: var(--primary-dark);
+    margin-right: 15px;
+}
+
+.contact-item a {
+    color: var(--text-dark);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-item a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* ===== 營業處據點 ===== */
+.locations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.location-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 2px 12px var(--shadow-light);
+    transition: all 0.3s;
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-medium);
+    border-color: var(--primary-dark);
+}
+
+.location-card::before {
+    content: '📍';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+}
+
+.location-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+}
+
+.location-card p {
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+/* ===== 建置中提示 ===== */
+.under-construction {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--bg-white);
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    margin: 40px 0;
+}
+
+.under-construction-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.under-construction h3 {
+    font-size: 24px;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+
+.under-construction p {
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+/* ===== 頁尾 ===== */
+.footer {
+    background: var(--primary-dark);
+    color: var(--text-light);
+    padding: 60px 20px 30px;
+    position: relative;
+    overflow: hidden;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-contact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-contact-section h3 {
+    color: var(--text-light);
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+.footer-contact-item strong {
+    min-width: 80px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-right: 10px;
+}
+
+.footer-contact-item a,
+.footer-contact-item span {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-contact-item a:hover {
+    color: var(--text-light);
+    text-decoration: underline;
+}
+
+.footer-location-item {
+    margin-bottom: 15px;
+}
+
+.footer-location-item p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    margin: 0;
+    font-size: 15px;
+}
+
+.footer-location-item strong {
+    color: var(--text-light);
+}
+
+.footer-info {
+    text-align: center;
+    padding-top: 30px;
+}
+
+.footer-info p {
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.footer a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.footer a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .footer-contact {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* ===== 響應式設計 ===== */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: var(--bg-white);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 20px 0;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .hero-card-style {
+        min-height: auto;
+    }
+
+    .hero-card-style .hero-content {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+        gap: 20px;
+        padding-right: 0;
+    }
+
+    .hero-left {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .hero-left h1 {
+        font-size: 32px;
+    }
+
+    .hero-left .company-name {
+        font-size: 38px;
+    }
+
+    .hero-left .hero-subtitle {
+        font-size: 15px;
+    }
+
+    .hero-right {
+        position: relative;
+        width: 100%;
+        height: 320px;
+        margin-top: 10px;
+    }
+
+    .card-triangle {
+        clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+        padding: 16px 14px;
+    }
+
+    .card-triangle-2 {
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .card-triangle-3 {
+        clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .vertical-text {
+        font-size: 30px;
+        letter-spacing: 6px;
+    }
+
+    .cert-text p {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .diagonal-section::before {
+        /* 手機版保持第一個三角形效果 */
+        clip-path: polygon(40% 0, 100% 0, 100% 50%, 30% 100%, 0 100%, 0 30%);
+    }
+
+    .diagonal-section::after {
+        /* 手機版保持第二個三角形效果 */
+        clip-path: polygon(50% 0, 100% 0, 100% 60%, 40% 100%, 0 100%, 0 40%);
+    }
+
+    .diagonal-section .content > div {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+
+    .diagonal-section .content h1,
+    .diagonal-section .content h2 {
+        font-size: 36px !important;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-white) 100%);
+    }
+}
+
+/* 平板裝置優化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .locations {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 28px;
+    }
+
+    .hero-text .company-name {
+        font-size: 32px;
+    }
+
+    .section {
+        padding: 40px 20px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .contact-info {
+        padding: 25px;
+    }
+
+    .locations {
+        grid-template-columns: 1fr;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-container {
+        padding: 0 15px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+}
+
+/* ===== 動畫效果 ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ===== 表單樣式 ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--primary-dark);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
