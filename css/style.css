@@ -212,20 +212,26 @@ body {
     color: var(--text-light);
 }
 
-/* ===== 名片風格 Hero 設計 - 完全拼接版 ===== */
+/* ===== 使用底圖的 Hero 設計 ===== */
 .hero-card-style {
-    background: var(--bg-white);
+    background: #fff url('../images/螢幕擷取畫面 2025-12-27 224851.png') no-repeat right center;
+    background-size: contain;
     position: relative;
-    min-height: 600px;
+    min-height: 500px;
     overflow: hidden;
+}
+
+@media (min-width: 1600px) {
+    .hero-card-style {
+        background-size: cover;
+    }
 }
 
 .hero-card-style .hero-content {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
-    height: 100%;
-    min-height: 600px;
+    min-height: 500px;
     display: flex;
     position: relative;
     z-index: 10;
@@ -233,11 +239,11 @@ body {
 
 .hero-left {
     flex: 1;
-    padding: 100px 0;
+    padding: 80px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-right: 45%; /* 確保文字不進入三角形區域 */
+    padding-right: 40%; /* 留出空間顯示背景圖的三角形 */
     background: transparent;
 }
 
@@ -309,44 +315,9 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* 右側拼接形狀容器 */
-.hero-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%; /* 使用全寬畫布進行精確座標定位 */
-    height: 100%;
-    z-index: 1;
-}
-
-/* 所有的形狀層都撐滿，依靠 clip-path 劃分領地 */
-.card-triangle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* 第一層 - 深紫色 (頂部) */
-.card-triangle-1 {
-    background: var(--color-dark-purple);
-    /* 頂部從 70% 到 100%，底部收縮到 60% */
-    clip-path: polygon(70% 0, 100% 0, 100% 40%, 60% 40%);
-}
-
-/* 第二層 - 淺藍灰色 (中間) */
-.card-triangle-2 {
-    background: var(--color-slate-blue);
-    /* 接續上方的 60% 寬度，向下轉折到 80% 寬度 */
-    clip-path: polygon(60% 40%, 100% 40%, 100% 75%, 80% 75%);
-}
-
-/* 第三層 - 深灰色 (底部) */
-.card-triangle-3 {
-    background: #6b7c8d;
-    /* 接續上方的 80% 寬度，向下收回到 70% 寬度 */
-    clip-path: polygon(80% 75%, 100% 75%, 100% 100%, 70% 100%);
+/* 移除舊的拼接形狀代碼 */
+.hero-shapes {
+    display: none;
 }
 
 /* 垂直文字定位 */
@@ -365,51 +336,18 @@ body {
 }
 
 
-/* 手機版響應式調整 */
 @media (max-width: 768px) {
     .hero-card-style {
+        background: #fff; /* 手機版不使用底圖以保持可讀性 */
         min-height: auto;
     }
     .hero-card-style .hero-content {
         flex-direction: column;
-        padding-right: 20px;
+        padding: 40px 20px;
     }
     .hero-left {
         padding-right: 0;
         text-align: center;
-        padding-top: 60px;
-        padding-bottom: 40px;
-    }
-    .hero-right {
-        position: relative;
-        height: 450px;
-        width: 100%;
-    }
-    .card-triangle-1 { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%); }
-    .card-triangle-2 { clip-path: polygon(0 70%, 100% 100%, 100% 100%, 0 100%); }
-    .card-triangle-3 { display: none; } /* 手機版簡化設計 */
-    
-    .vertical-text {
-        top: 40px;
-        right: 30px;
-        font-size: 36px;
-        transform: none;
-    }
-
-    .hero-action-area {
-        align-items: center;
-    }
-
-    .cert-badges-container {
-        justify-content: center;
-    }
-
-    .cert-badge-item {
-        padding: 6px 12px;
-    }
-
-    .cert-badge-text {
-        font-size: 13px;
     }
 }
 
@@ -1029,6 +967,18 @@ body {
 }
 
 /* ===== 響應式設計 ===== */
+@media (max-width: 1024px) {
+    .hero-card-style .hero-content {
+        padding-right: 35%;
+    }
+    .hero-left h1 {
+        font-size: 42px;
+    }
+    .hero-left .company-name {
+        font-size: 52px;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-menu {
         position: fixed;
@@ -1051,146 +1001,116 @@ body {
         display: block;
     }
 
+    /* Hero 區塊手機版底圖優化 */
     .hero-card-style {
-        min-height: auto;
+        background: #fff url('../images/螢幕擷取畫面 2025-12-27 224851.png') no-repeat center right;
+        background-size: cover;
+        min-height: 450px;
+        padding: 60px 0;
+        position: relative;
+    }
+
+    /* 加入一個微弱的白色漸層遮罩，確保文字清晰 */
+    .hero-card-style::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
+        z-index: 1;
     }
 
     .hero-card-style .hero-content {
-        grid-template-columns: 1fr;
-        padding: 40px 20px;
-        gap: 20px;
-        padding-right: 0;
+        flex-direction: column;
+        padding: 0 20px;
+        text-align: center;
+        min-height: auto;
+        position: relative;
+        z-index: 10;
     }
 
     .hero-left {
-        padding: 20px;
-        text-align: center;
+        padding: 0;
+        padding-right: 0;
+        align-items: center;
     }
 
     .hero-left h1 {
         font-size: 32px;
+        text-shadow: 0 0 15px #fff, 0 0 5px #fff;
     }
 
     .hero-left .company-name {
         font-size: 38px;
+        text-shadow: 0 0 15px #fff, 0 0 5px #fff;
     }
 
     .hero-left .hero-subtitle {
         font-size: 15px;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px #fff;
+        font-weight: 500;
     }
 
-    .hero-right {
-        position: relative;
+    .hero-action-area {
+        align-items: center;
         width: 100%;
-        height: 320px;
-        margin-top: 10px;
     }
 
-    .card-triangle {
-        clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
-        padding: 16px 14px;
+    .cert-badges-container {
+        justify-content: center;
+        width: 100%;
     }
 
-    .card-triangle-2 {
-        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+    .cert-badge-item {
+        padding: 6px 12px;
     }
 
-    .card-triangle-3 {
-        clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .vertical-text {
-        font-size: 30px;
-        letter-spacing: 6px;
-    }
-
-    .cert-text p {
+    .cert-badge-text {
         font-size: 13px;
-        letter-spacing: 1px;
+    }
+
+    /* 區塊間距優化 */
+    .section {
+        padding: 60px 20px;
     }
 
     .section-title {
         font-size: 28px;
+        margin-bottom: 40px;
     }
 
-    .grid-2,
-    .grid-3,
-    .grid-4 {
+    /* 網格切換為單欄 */
+    .grid-2, .grid-3, .grid-4 {
         grid-template-columns: 1fr;
     }
 
-    .diagonal-section::before {
-        /* 手機版保持第一個三角形效果 */
-        clip-path: polygon(40% 0, 100% 0, 100% 50%, 30% 100%, 0 100%, 0 30%);
-    }
-
-    .diagonal-section::after {
-        /* 手機版保持第二個三角形效果 */
-        clip-path: polygon(50% 0, 100% 0, 100% 60%, 40% 100%, 0 100%, 0 40%);
-    }
-
-    .diagonal-section .content > div {
-        grid-template-columns: 1fr !important;
-        gap: 30px !important;
-    }
-
-    .diagonal-section .content h1,
-    .diagonal-section .content h2 {
-        font-size: 36px !important;
-    }
-
-    .hero {
-        background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-white) 100%);
-    }
-}
-
-/* 平板裝置優化 */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .hero-content {
+    /* 頁尾優化 */
+    .footer-contact {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
+        text-align: center;
     }
 
-    .grid-3 {
-        grid-template-columns: repeat(2, 1fr);
+    .footer-contact-item {
+        justify-content: center;
     }
 
-    .grid-4 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .locations {
-        grid-template-columns: repeat(2, 1fr);
+    .footer-qr-code img {
+        width: 120px;
+        height: 120px;
     }
 }
 
 @media (max-width: 480px) {
-    .hero-text h1 {
+    .hero-left h1 {
         font-size: 28px;
     }
 
-    .hero-text .company-name {
+    .hero-left .company-name {
         font-size: 32px;
-    }
-
-    .section {
-        padding: 40px 20px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .contact-info {
-        padding: 25px;
-    }
-
-    .locations {
-        grid-template-columns: 1fr;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr;
     }
 
     .nav-container {
@@ -1199,6 +1119,11 @@ body {
 
     .logo {
         font-size: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 14px 20px;
     }
 }
 
