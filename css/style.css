@@ -922,11 +922,35 @@ body {
 
 .footer-contact {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 60px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
     margin-bottom: 40px;
     padding-bottom: 40px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-qr-code {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.footer-qr-code img {
+    width: 140px;
+    height: 140px;
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 5px;
+}
+
+.footer-qr-code p {
+    color: var(--text-light) !important;
+    font-size: 14px !important;
+    font-weight: 600;
+    margin: 0 !important;
 }
 
 .footer-contact-section h3 {
