@@ -787,13 +787,6 @@ body {
     border-color: var(--primary-dark);
 }
 
-.location-card::before {
-    content: '📍';
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 24px;
-}
 
 .location-card h3 {
     font-size: 20px;
