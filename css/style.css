@@ -934,6 +934,17 @@ body {
     font-size: 15px;
 }
 
+.footer-location-item a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-location-item a:hover {
+    color: var(--text-light);
+    text-decoration: underline;
+}
+
 .footer-location-item strong {
     color: var(--text-light);
 }
